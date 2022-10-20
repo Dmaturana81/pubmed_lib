@@ -2,7 +2,7 @@
 
 # %% auto 0
 __all__ = ['regex', 'reg_email', 'db_name', 'parse_paperinfo', 'parse_author_xml', 'parsePubmedData', 'parseArticle',
-           'parse_email', 'parseMayorKeys', 'parseMeshKeys']
+           'parse_email', 'parseMayorKeys', 'parseMeshKeys', 'parseKeys']
 
 # %% ../nbs/01_parser.ipynb 3
 from Bio import Entrez
@@ -205,3 +205,7 @@ def parseMeshKeys(citationInfo):
 #     mayorkeys = [str(x['DescriptorName']) for x in meshKeys if x['DescriptorName'].attributes['MajorTopicYN']=='Y']
 #     minorKeys = [str(x['DescriptorName']) for x in meshKeys if x['DescriptorName'].attributes['MajorTopicYN']=='N']
 #     return mayorkeys, minorKeys
+
+# %% ../nbs/01_parser.ipynb 14
+def parseKeys(citationInfo):
+    return parseMayorKeys(citationInfo), parseMeshKeys(citationInfo)
