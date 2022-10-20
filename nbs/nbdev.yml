@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "pubmed_lib"
+  site-url: "https://Dmaturana81.github.io/pubmed_lib"
+  description: "Library to search and parse data from pubmed. This library has all the functions to search for a author or affiliation, get publications, authors and some visualizations"
+  repo-branch: main
+  repo-url: "https://github.com/Dmaturana81/pubmed_lib"
