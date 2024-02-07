@@ -1,0 +1,12 @@
+name: CI
+on:  [workflow_dispatch, pull_request, push]
+
+env:
+  EMAIL: ${{ secrets.EMAIL }}
+  API_KEY: ${{ secrets.API_KEY }}
+  
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps: [uses: fastai/workflows/nbdev-ci@master]
+
