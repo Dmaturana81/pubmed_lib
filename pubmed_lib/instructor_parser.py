@@ -14,31 +14,31 @@ import openai
 # %% ../nbs/08_instructor_parser.ipynb 7
 class Affiliation(BaseModel):
     """Affiliation data representation"""
-    organization:str = Field(
+    organization:str | None = Field(
         default= "",
         description= "The company or university of the Affiliation",        
     )
-    laboratory: str = Field(
+    laboratory: str | None = Field(
         default= "",
         description= "The Laboratory of the Affiliation",        
     )
-    department: str =Field(
+    department: str | None =Field(
         default= "",
         description= "The department of the Affiliation",        
     )
-    faculty: str =Field(
+    faculty: str | None =Field(
         default= "",
         description= "The faculty of the Affiliation",        
     )
-    country: str = Field(
+    country: str | None = Field(
         default= "",
         description= "The country of the Affiliation",        
     )
-    city: str = Field(
+    city: str | None = Field(
         default= "",
         description= "The city of the Affiliation",        
     )
-    state: str = Field(
+    state: str | None = Field(
         default= "",
         description= "The state, county, or province of the Affiliation",        
     )

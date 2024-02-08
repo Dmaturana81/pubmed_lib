@@ -7,6 +7,8 @@ __all__ = ['regex', 'reg_email', 'db_name', 'parsePubmedData', 'parseArticle', '
 # %% ../nbs/01_parser.ipynb 4
 from datetime import datetime, timedelta, date
 from collections import defaultdict, Counter
+from affiliation_parser import parse_affil
+
 import re
 
 
@@ -150,7 +152,7 @@ def parse_paperinfo(
 # %% ../nbs/01_parser.ipynb 15
 def parse_author_xml(
     autor_xml, #Xml data containing information for each author
-    )->Autor:
+    ) -> Autor:
     """
     Receive a dictionary from pubmed with the information of the Author. Retreive a Autor object with all the information parsed
 
@@ -176,20 +178,16 @@ def parse_author_xml(
         autorIN = autor_xml['Initials']
         name = autorFN + ' ' + autorLN
         #Need to parse affiliation to get more details
-        print("entering")
         affiliation_parsed = parse_affiliation(AFFs).model_dump() if AFFs != "" else {}
-        print(affiliation_parsed)
-        # emails = parse_email(AFFs) 
         data = {
             'Fname': autorFN,
             'Lname': autorLN,
-            # 'emails': emails,
             'affiliations': AFFs, 
             'identifier': autorID,
             'name': name, 
             'initials': autorIN,
             'affiliation_parsed': affiliation_parsed
-               }  #
+            }  
         data.update(affiliation_parsed)
         return Autor.model_validate(data)
 
@@ -202,10 +200,18 @@ def parse_author_xml(
         return
     except:
         print('error en parsing nor validated')
-        return
+        return Autor()
 
 # %% ../nbs/01_parser.ipynb 16
-def parse_affiliation(aff:str):
-    parser = InstructorParser(data_class=Affiliation)
-    parsed =  parser.run(aff)
-    return parsed
+def parse_affiliation(aff:str, LLM: bool = False):
+    """Function that direct the parsing of the affiliation"""
+    if LLM:
+        parser = InstructorParser(data_class=Affiliation) 
+        return parser.run(aff)
+    else:
+        parsed = {k:v if v != '' else 
+            
+        None for k,v in parse_affil(aff).items() }
+
+        return Affiliation().model_validate(parsed) #affilparser(aff)
+    # return parsed
