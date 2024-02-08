@@ -31,6 +31,7 @@ class Search(BaseModel):
     idlist: List[int] | None = None
     email:str | None = None
     api_key:str | None = None
+    country: str | None = None
     
     @model_validator(mode='before')
     def validate_email(cls,values:dict )->dict:
@@ -56,6 +57,19 @@ class Search(BaseModel):
 
 # %% ../nbs/00_search.ipynb 9
 @patch
+def _generate_query(
+    self:Search,
+    query: str, #Query to be search in pubmed
+):
+    """
+    It receive a query and prepare the string to be search, adding all the tags needed
+    """
+
+    return f"\"{query}\"{self.search_tag} AND \"{self.country}\"{SEARCH_TAGS['Affiliation']}" if self.country else f"{query}{self.search_tag}"
+
+
+# %% ../nbs/00_search.ipynb 10
+@patch()
 def search(
     self:Search,
     query: str, #Query to be search in pubmed
@@ -65,7 +79,7 @@ def search(
     """
     Entrez.email = self.email
     Entrez.api_key = self.api_key
-    query = query+self.search_tag
+    query = self._generate_query(query)
     handle = Entrez.esearch(db='pubmed',
                     sort=self.sort,
                     retmax=self.retmax,
@@ -76,7 +90,7 @@ def search(
     results = Entrez.read(handle)
     return results['IdList']
 
-# %% ../nbs/00_search.ipynb 14
+# %% ../nbs/00_search.ipynb 15
 @patch
 def fetch_details(
     self:Search,
@@ -92,7 +106,7 @@ def fetch_details(
     results = Entrez.read(handle)
     return results['PubmedArticle']
 
-# %% ../nbs/00_search.ipynb 15
+# %% ../nbs/00_search.ipynb 16
 @patch
 def results(
     self:Search,
@@ -100,11 +114,12 @@ def results(
 )->list:
     """
     Method that do the search and retrieve a generator with all the infomration of the articles"""
-    results = []
-    id_list = self.search(query)
-    articles = self.fetch_details(id_list)
-    for article in articles:
-        article_dict = parse_paperinfo(article)
-        results.append( Result.model_validate(article_dict))
+    results = Results()
+    # id_list = self.search(query)
+    if id_list := self.search(query):
+        articles = self.fetch_details(id_list)
+        for article in articles:
+            article_dict = parse_paperinfo(article)
+            results.append( Result.model_validate(article_dict))
     return results
 
