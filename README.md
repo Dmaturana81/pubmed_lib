@@ -28,7 +28,8 @@ target="_blank" style="float:right; font-size:smaller">source</a>
 >      Search (search_tag:str='Title/Abstract', retmax:int=200,
 >              retmode:str='xml', sort:str='relevance', mindate:int|None=None,
 >              maxdate:int|None=None, idlist:Optional[List[int]]=None,
->              email:str|None=None, api_key:str|None=None)
+>              email:str|None=None, api_key:str|None=None,
+>              country:str|None=None)
 
 Search class to warp the search and results
 
@@ -69,7 +70,7 @@ for k in SEARCH_TAGS.keys():
 By defaults is setup to search in Title/Abstract
 
 ``` python
-search = Search(retmax=10)
+search = Search(retmax=100, country='Brazil')
 ```
 
 To actually do the search, you need to call the method search and give
@@ -91,23 +92,6 @@ the search
 |       | **Type** | **Details**                  |
 |-------|----------|------------------------------|
 | query | str      | Query to be search in pubmed |
-
-``` python
-results = search.search('Bi-functional degraders in cancer')
-```
-
-``` python
-results
-```
-
-    ['35285613', '33672989', '23749892', '17310834', '35644005', '16870428', '29587668', '21269262', '25685909', '27815492']
-
-to fetch the results you need to call the fetch_details method, and pass
-the list of pubmedIds retreive previously
-
-``` python
-articles = search.fetch_details(results)
-```
 
 This will give you the xml data retreived from pubmed
 
@@ -133,64 +117,80 @@ infomration of the articles
 | **Returns** | **list** |                              |
 
 ``` python
-results = search.results('Bi-functional degraders in cancer')
+search = Search(retmax=10, mindate=2023, country='Brazil', search_tag='Title/Abstract')
 ```
 
 ``` python
-res = list(results)
+results_affil = search.results("growth factors")
 ```
 
 ``` python
-res[0]
+results_affil.to_df('autors')
 ```
 
-    Result(pubmed='35285613', pmc=None, doi='10.1021/acsabm.1c01216', pii=None, abstract="Gold nanorods (AuNRs) remain well-developed inorganic nanocarriers of small molecules for a plethora of biomedical and therapeutic applications. However, the delivery of therapeutic proteins using AuNRs with high protein loading capacity (LC), serum stability, excellent target specificity, and minimal off-target protein release is not known. Herein, we report two bi-functional AuNR-protein nanoconjugates, AuNR@EGFP-BSA<sub>FA</sub> and AuNR@RNaseA-BSA<sub>FA</sub>, supramolecularly coated with folic acid-modified BSA (BSA<sub>FA</sub>) acting as biomimetic protein corona to demonstrate targeted cytosolic delivery of enhanced green fluorescent protein (EGFP) and therapeutic ribonuclease A enzyme (RNase A) in their functional forms. AuNR@EGFP-BSA<sub>FA</sub> and AuNR@RNaseA-BSA<sub>FA</sub> exhibit high LCs of ∼42 and ∼54%, respectively, increased colloidal stability, and rapid protein release in the presence of biological thiols. As a nanocarrier, AuNR@EGFP-BSA<sub>FA</sub> and AuNR@RNaseA-BSA<sub>FA</sub> show resistance to corona formation in high-serum media even after 24 h, guaranteeing a greater circulation lifetime. Folate receptor-targeting BSA<sub>FA</sub> on the AuNR surface facilitates the receptor-mediated internalization, followed by the release of EGFP and RNase A in HT29 cells. The green fluorescence dispersed throughout the cell's cytoplasm indicates successful cytosolic delivery of EGFP by AuNR@EGFP-BSA<sub>FA</sub>. AuNR@RNaseA-BSA<sub>FA</sub>-mediated therapeutic RNase A delivery in multicellular 3D spheroids of HT29 cells exhibits a radical reduction in the cellular RNA fluorescence intensity to 38%, signifying RNA degradation and subsequent cell death. The versatile nanoformulation strategy in terms of the anisotropic particle morphology, protein type, and ability for targeted delivery in the functional form makes the present AuNR-protein nanoconjugates a promising platform for potential application in cancer management.", autorlist=[Autor(Fname='Namita', Lname='Jaiswal', name='Namita Jaiswal', initials='N', emails='', affiliations='Department Of Biotechnology, National Institute Of Technology Durgapur, Durgapur 713209, India.;Material Processing And Microsystem Laboratory, Csir─Central Mechanical Engineering Research Institute, Durgapur 713209, India.', identifier=''), Autor(Fname='Sudeshna', Lname='Halder', name='Sudeshna Halder', initials='S', emails='', affiliations='Department Of Biotechnology, National Institute Of Technology Durgapur, Durgapur 713209, India.', identifier=''), Autor(Fname='Nibedita', Lname='Mahata', name='Nibedita Mahata', initials='N', emails='', affiliations='Department Of Biotechnology, National Institute Of Technology Durgapur, Durgapur 713209, India.', identifier=''), Autor(Fname='Nripen', Lname='Chanda', name='Nripen Chanda', initials='N', emails='', affiliations='Material Processing And Microsystem Laboratory, Csir─Central Mechanical Engineering Research Institute, Durgapur 713209, India.', identifier='0000-0002-9902-5595')], title='Bi-Functional Gold Nanorod-Protein Conjugates with Biomimetic BSA@Folic Acid Corona for Improved Tumor Targeting and Intracellular Delivery of Therapeutic Proteins in Colon Cancer 3D Spheroids.', journal='ACS applied bio materials', published=datetime.date(2022, 3, 14), mayorKeys=[], mayorMesh=['Colonic Neoplasms', 'Nanotubes'], minorMesh=['Biomimetics', 'Folic Acid', 'Gold', 'Humans', 'Nanoconjugates', 'Ribonuclease, Pancreatic'])
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&#10;    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+&#10;    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 
-``` python
-res[0].dict()
-```
+|     | name                            | affiliations                                      | identifier          | email                      | organization | laboratory | department                                        | faculty | country                  | city | state | pubmed   | doi                           | abstract                                              | title                                             | journal                                           | published  |
+|-----|---------------------------------|---------------------------------------------------|---------------------|----------------------------|--------------|------------|---------------------------------------------------|---------|--------------------------|------|-------|----------|-------------------------------|-------------------------------------------------------|---------------------------------------------------|---------------------------------------------------|------------|
+| 0   | Rinaldo Florencio-Silva         | Department Of Morphology And Genetics, Laborat... |                     | None                       |              |            | Department of Morphology and Genetics, Laborat... |         | brazil                   |      |       | 26247020 | 10.1155/2015/421746           | Bone tissue is continuously remodeled through ...     | Biology of Bone Tissue: Structure, Function, a... | BioMed research international                     | 2015-07-13 |
+| 1   | Gisela Rodrigues Da Silva Sasso | Department Of Morphology And Genetics, Laborat... |                     | None                       |              |            | Department of Morphology and Genetics, Laborat... |         | brazil                   |      |       | 26247020 | 10.1155/2015/421746           | Bone tissue is continuously remodeled through ...     | Biology of Bone Tissue: Structure, Function, a... | BioMed research international                     | 2015-07-13 |
+| 2   | Estela Sasso-Cerri              | Department Of Morphology, Laboratory Of Histol... |                     | None                       |              |            | Department of Morphology, Laboratory of Histol... |         | brazil                   |      |       | 26247020 | 10.1155/2015/421746           | Bone tissue is continuously remodeled through ...     | Biology of Bone Tissue: Structure, Function, a... | BioMed research international                     | 2015-07-13 |
+| 3   | Manuel Jesus Simões             | Department Of Morphology And Genetics, Laborat... |                     | None                       |              |            | Department of Morphology and Genetics, Laborat... |         | brazil                   |      |       | 26247020 | 10.1155/2015/421746           | Bone tissue is continuously remodeled through ...     | Biology of Bone Tissue: Structure, Function, a... | BioMed research international                     | 2015-07-13 |
+| 4   | Paulo Sérgio Cerri              | Department Of Morphology, Laboratory Of Histol... |                     | None                       |              |            | Department of Morphology, Laboratory of Histol... |         | brazil                   |      |       | 26247020 | 10.1155/2015/421746           | Bone tissue is continuously remodeled through ...     | Biology of Bone Tissue: Structure, Function, a... | BioMed research international                     | 2015-07-13 |
+| 5   | Juliana De Souza Rebouças       | Laboratório De Imunopatologia Keizo-Asami - Un... |                     | None                       |              |            | Laboratorio de Imunopatologia Keizo-Asami - Un... |         | brazil                   |      |       | 27355588 | 10.5935/abc.20160097          | Myocardial infarction is the most significant ...     | Cardiac Regeneration using Growth Factors: Adv... | Arquivos brasileiros de cardiologia               | 2016-06-27 |
+| 6   | Nereide Stela Santos-Magalhães  | Laboratório De Imunopatologia Keizo-Asami - Un... |                     | None                       |              |            | Laboratorio de Imunopatologia Keizo-Asami - Un... |         | brazil                   |      |       | 27355588 | 10.5935/abc.20160097          | Myocardial infarction is the most significant ...     | Cardiac Regeneration using Growth Factors: Adv... | Arquivos brasileiros de cardiologia               | 2016-06-27 |
+| 7   | Fabio Rocha Formiga             | Programa De Pós-Graduação Em Biologia Celular ... |                     | None                       |              |            | None                                              |         | brazil                   |      |       | 27355588 | 10.5935/abc.20160097          | Myocardial infarction is the most significant ...     | Cardiac Regeneration using Growth Factors: Adv... | Arquivos brasileiros de cardiologia               | 2016-06-27 |
+| 8   | Sophia L B Oliveira             | Departamento De Bioquímica, Instituto De Quími... |                     | None                       |              |            | None                                              |         | brazil                   |      |       | 23044513 | 10.1002/cyto.a.22161          | The identification and isolation of multipoten...     | Functions of neurotrophins and growth factors ... | Cytometry. Part A : the journal of the Interna... | 2012-10-08 |
+| 9   | Micheli M Pillat                |                                                   |                     | NaN                        | NaN          | NaN        | NaN                                               | NaN     | NaN                      | NaN  | NaN   | 23044513 | 10.1002/cyto.a.22161          | The identification and isolation of multipoten...     | Functions of neurotrophins and growth factors ... | Cytometry. Part A : the journal of the Interna... | 2012-10-08 |
+| 10  | Arquimedes Cheffer              |                                                   |                     | NaN                        | NaN          | NaN        | NaN                                               | NaN     | NaN                      | NaN  | NaN   | 23044513 | 10.1002/cyto.a.22161          | The identification and isolation of multipoten...     | Functions of neurotrophins and growth factors ... | Cytometry. Part A : the journal of the Interna... | 2012-10-08 |
+| 11  | Claudiana Lameu                 |                                                   |                     | NaN                        | NaN          | NaN        | NaN                                               | NaN     | NaN                      | NaN  | NaN   | 23044513 | 10.1002/cyto.a.22161          | The identification and isolation of multipoten...     | Functions of neurotrophins and growth factors ... | Cytometry. Part A : the journal of the Interna... | 2012-10-08 |
+| 12  | Telma T Schwindt                |                                                   |                     | NaN                        | NaN          | NaN        | NaN                                               | NaN     | NaN                      | NaN  | NaN   | 23044513 | 10.1002/cyto.a.22161          | The identification and isolation of multipoten...     | Functions of neurotrophins and growth factors ... | Cytometry. Part A : the journal of the Interna... | 2012-10-08 |
+| 13  | Henning Ulrich                  |                                                   |                     | NaN                        | NaN          | NaN        | NaN                                               | NaN     | NaN                      | NaN  | NaN   | 23044513 | 10.1002/cyto.a.22161          | The identification and isolation of multipoten...     | Functions of neurotrophins and growth factors ... | Cytometry. Part A : the journal of the Interna... | 2012-10-08 |
+| 14  | Mehran Alavi                    | Nanobiotechnology Laboratory, Department Of Bi... |                     | None                       |              |            | Nanobiotechnology Laboratory, Department of Bi... |         | iran                     |      |       | 32536223 | 10.1080/14787210.2020.1782740 | Infected chronic wounds particularly diabetic ...     | Topical delivery of growth factors and metal/m... | Expert review of anti-infective therapy           | 2020-06-27 |
+| 15  | Mahendra Rai                    | Nanobiotechnology Laboratory, Department Of Bi... |                     | None                       |              |            | Nanobiotechnology Laboratory, Department of Bi... |         | brazil                   |      |       | 32536223 | 10.1080/14787210.2020.1782740 | Infected chronic wounds particularly diabetic ...     | Topical delivery of growth factors and metal/m... | Expert review of anti-infective therapy           | 2020-06-27 |
+| 16  | Ana Cláudia Garcia Rosa         | Department Of Oral Pathology, Lutheran Univers... |                     | None                       |              |            | Department of Oral Pathology, Brazil.Departmen... |         | brazil                   |      |       | 26671844 | 10.1111/jop.12402             | Polymorphous low-grade adenocarcinoma (PLGA) i...     | Immunoexpression of growth factors and recepto... | Journal of oral pathology & medicine : officia... | 2015-12-16 |
+| 17  | Andresa Borges Soares           | Department Of Oral Pathology, São Leopoldo Man... |                     | None                       |              |            | Department of Oral Pathology, Sao Leopoldo Man... |         | brazil                   |      |       | 26671844 | 10.1111/jop.12402             | Polymorphous low-grade adenocarcinoma (PLGA) i...     | Immunoexpression of growth factors and recepto... | Journal of oral pathology & medicine : officia... | 2015-12-16 |
+| 18  | Fabrício Passador Santos        | Department Of Oral Pathology, São Leopoldo Man... |                     | None                       |              |            | Department of Oral Pathology, Sao Leopoldo Man... |         | brazil                   |      |       | 26671844 | 10.1111/jop.12402             | Polymorphous low-grade adenocarcinoma (PLGA) i...     | Immunoexpression of growth factors and recepto... | Journal of oral pathology & medicine : officia... | 2015-12-16 |
+| 19  | Cristiane Furuse                | Department Of Oral Pathology, São Paulo State ... |                     | None                       |              |            | Department of Oral Pathology                      |         | brazil                   |      |       | 26671844 | 10.1111/jop.12402             | Polymorphous low-grade adenocarcinoma (PLGA) i...     | Immunoexpression of growth factors and recepto... | Journal of oral pathology & medicine : officia... | 2015-12-16 |
+| 20  | Vera Cavalcanti De Araújo       | Department Of Oral Pathology, São Leopoldo Man... |                     | None                       |              |            | Department of Oral Pathology, Sao Leopoldo Man... |         | brazil                   |      |       | 26671844 | 10.1111/jop.12402             | Polymorphous low-grade adenocarcinoma (PLGA) i...     | Immunoexpression of growth factors and recepto... | Journal of oral pathology & medicine : officia... | 2015-12-16 |
+| 21  | Laylla Barreto E Barreto        | Department Of Cell And Developmental Biology, ... |                     | None                       |              |            | Department of Cell and Developmental Biology, ... |         | brazil                   |      |       | 35032139 | 10.1002/cbin.11764            | The small intestine mucosa is lined by special...     | Paneth cells and their multiple functions.        | Cell biology international                        | 2022-01-23 |
+| 22  | Isadora C Rattes                | Department Of Cell And Developmental Biology, ... |                     | None                       |              |            | Department of Cell and Developmental Biology, ... |         | brazil                   |      |       | 35032139 | 10.1002/cbin.11764            | The small intestine mucosa is lined by special...     | Paneth cells and their multiple functions.        | Cell biology international                        | 2022-01-23 |
+| 23  | Aline V Da Costa                | Department Of Cell And Developmental Biology, ... |                     | None                       |              |            | Department of Cell and Developmental Biology, ... |         | brazil                   |      |       | 35032139 | 10.1002/cbin.11764            | The small intestine mucosa is lined by special...     | Paneth cells and their multiple functions.        | Cell biology international                        | 2022-01-23 |
+| 24  | Patrícia Gama                   | Department Of Cell And Developmental Biology, ... | 0000-0002-1863-893X | None                       |              |            | Department of Cell and Developmental Biology, ... |         | brazil                   |      |       | 35032139 | 10.1002/cbin.11764            | The small intestine mucosa is lined by special...     | Paneth cells and their multiple functions.        | Cell biology international                        | 2022-01-23 |
+| 25  | Tinara Leila De Souza Aarão     | Nucleo De Medicina Tropical, Universidade Fede... |                     | None                       |              |            | None                                              |         | brazil                   |      |       | 25457797 | 10.1016/j.micpath.2014.10.005 | Leprosy is a chronic infectious disease caused...     | Relationship between growth factors and its im... | Microbial pathogenesis                            | 2014-10-25 |
+| 26  | Nelma Rosa Esteves              | Departamento De Patologia, Centro De Ciencias ... |                     | None                       |              |            | None                                              |         | brazil                   |      |       | 25457797 | 10.1016/j.micpath.2014.10.005 | Leprosy is a chronic infectious disease caused...     | Relationship between growth factors and its im... | Microbial pathogenesis                            | 2014-10-25 |
+| 27  | Natalia Esteves                 | Departamento De Patologia, Centro De Ciencias ... |                     | None                       |              |            | None                                              |         | brazil                   |      |       | 25457797 | 10.1016/j.micpath.2014.10.005 | Leprosy is a chronic infectious disease caused...     | Relationship between growth factors and its im... | Microbial pathogenesis                            | 2014-10-25 |
+| 28  | Luis Paulo De Miranda Soares    | Departamento De Patologia, Centro De Ciencias ... |                     | None                       |              |            | None                                              |         | brazil                   |      |       | 25457797 | 10.1016/j.micpath.2014.10.005 | Leprosy is a chronic infectious disease caused...     | Relationship between growth factors and its im... | Microbial pathogenesis                            | 2014-10-25 |
+| 29  | Denise Da Silva Pinto           | Nucleo De Medicina Tropical, Universidade Fede... |                     | None                       |              |            | None                                              |         | brazil                   |      |       | 25457797 | 10.1016/j.micpath.2014.10.005 | Leprosy is a chronic infectious disease caused...     | Relationship between growth factors and its im... | Microbial pathogenesis                            | 2014-10-25 |
+| 30  | Hellen Thais Fuzii              | Nucleo De Medicina Tropical, Universidade Fede... |                     | None                       |              |            | None                                              |         | brazil                   |      |       | 25457797 | 10.1016/j.micpath.2014.10.005 | Leprosy is a chronic infectious disease caused...     | Relationship between growth factors and its im... | Microbial pathogenesis                            | 2014-10-25 |
+| 31  | Juarez Antônio Simões Quaresma  | Nucleo De Medicina Tropical, Universidade Fede... |                     | juarez@pesquisador.cnpq.br |              |            | None                                              |         | brazil                   |      |       | 25457797 | 10.1016/j.micpath.2014.10.005 | Leprosy is a chronic infectious disease caused...     | Relationship between growth factors and its im... | Microbial pathogenesis                            | 2014-10-25 |
+| 32  | Victor Edgar Fiestas Solórzano  | Viral Immunology Laboratory, Oswaldo Cruz Inst... | 0000-0002-5554-3542 | None                       |              |            | Viral Immunology Laboratory, Oswaldo Cruz Inst... |         | brazil                   |      |       | 36297236 | 10.3390/pathogens11101179     | Growth factors (GFs) have a role in tissue rep...     | The Role of Growth Factors in the Pathogenesis... | Pathogens (Basel, Switzerland)                    | 2022-10-13 |
+| 33  | Raquel Curtinhas De Lima        | Viral Immunology Laboratory, Oswaldo Cruz Inst... |                     | None                       |              |            | Viral Immunology Laboratory, Oswaldo Cruz Inst... |         | brazil                   |      |       | 36297236 | 10.3390/pathogens11101179     | Growth factors (GFs) have a role in tissue rep...     | The Role of Growth Factors in the Pathogenesis... | Pathogens (Basel, Switzerland)                    | 2022-10-13 |
+| 34  | Elzinandes Leal De Azeredo      | Viral Immunology Laboratory, Oswaldo Cruz Inst... |                     | None                       |              |            | Viral Immunology Laboratory, Oswaldo Cruz Inst... |         | brazil                   |      |       | 36297236 | 10.3390/pathogens11101179     | Growth factors (GFs) have a role in tissue rep...     | The Role of Growth Factors in the Pathogenesis... | Pathogens (Basel, Switzerland)                    | 2022-10-13 |
+| 35  | Mark D Deboer                   | Pediatric Endocrinology, Department Of Pediatr... |                     | deboer@virginia.edu        |              |            | Department of Pediatrics                          |         | united states of america |      |       | 27712965 | 10.1016/j.nut.2016.06.013     | Deficits in weight gain and linear growth are ...     | Systemic inflammation, growth factors, and lin... | Nutrition (Burbank, Los Angeles County, Calif.)   | 2016-07-26 |
+| 36  | Rebecca J Scharf                | Developmental Pediatrics, Department Of Pediat... |                     | None                       |              |            | Department of Pediatrics                          |         | united states of america |      |       | 27712965 | 10.1016/j.nut.2016.06.013     | Deficits in weight gain and linear growth are ...     | Systemic inflammation, growth factors, and lin... | Nutrition (Burbank, Los Angeles County, Calif.)   | 2016-07-26 |
+| 37  | Alvaro M Leite                  | Institute Of Biomedicine, Federal University O... |                     | None                       |              |            | Institute of Biomedicine                          |         | brazil                   |      |       | 27712965 | 10.1016/j.nut.2016.06.013     | Deficits in weight gain and linear growth are ...     | Systemic inflammation, growth factors, and lin... | Nutrition (Burbank, Los Angeles County, Calif.)   | 2016-07-26 |
+| 38  | Alessandra Férrer               | Institute Of Biomedicine, Federal University O... |                     | None                       |              |            | Institute of Biomedicine                          |         | brazil                   |      |       | 27712965 | 10.1016/j.nut.2016.06.013     | Deficits in weight gain and linear growth are ...     | Systemic inflammation, growth factors, and lin... | Nutrition (Burbank, Los Angeles County, Calif.)   | 2016-07-26 |
+| 39  | Alexandre Havt                  | Institute Of Biomedicine, Federal University O... |                     | None                       |              |            | Institute of Biomedicine                          |         | brazil                   |      |       | 27712965 | 10.1016/j.nut.2016.06.013     | Deficits in weight gain and linear growth are ...     | Systemic inflammation, growth factors, and lin... | Nutrition (Burbank, Los Angeles County, Calif.)   | 2016-07-26 |
+| 40  | Relana Pinkerton                | Center For Global Health, University Of Virgin... |                     | None                       |              |            | None                                              |         | united states of america |      |       | 27712965 | 10.1016/j.nut.2016.06.013     | Deficits in weight gain and linear growth are ...     | Systemic inflammation, growth factors, and lin... | Nutrition (Burbank, Los Angeles County, Calif.)   | 2016-07-26 |
+| 41  | Aldo A Lima                     | Institute Of Biomedicine, Federal University O... |                     | None                       |              |            | Institute of Biomedicine                          |         | brazil                   |      |       | 27712965 | 10.1016/j.nut.2016.06.013     | Deficits in weight gain and linear growth are ...     | Systemic inflammation, growth factors, and lin... | Nutrition (Burbank, Los Angeles County, Calif.)   | 2016-07-26 |
+| 42  | Richard L Guerrant              | Center For Global Health, University Of Virgin... |                     | None                       |              |            | None                                              |         | united states of america |      |       | 27712965 | 10.1016/j.nut.2016.06.013     | Deficits in weight gain and linear growth are ...     | Systemic inflammation, growth factors, and lin... | Nutrition (Burbank, Los Angeles County, Calif.)   | 2016-07-26 |
+| 43  | Flávia C Valério                | Laboratório Interdisciplinar De Investigação M... |                     | None                       |              |            | Laboratorio Interdisciplinar de Investigacao M... |         | brazil                   |      |       | 32643393 | 10.2217/bmm-2019-0378         | \<b\>Aim:\</b\> This article aimed to review the r... | Biomarkers in vesicoureteral reflux: an overview. | Biomarkers in medicine                            | 2020-07-09 |
+| 44  | Renata D Lemos                  | Laboratório Interdisciplinar De Investigação M... |                     | None                       |              |            | Laboratorio Interdisciplinar de Investigacao M... |         | brazil                   |      |       | 32643393 | 10.2217/bmm-2019-0378         | \<b\>Aim:\</b\> This article aimed to review the r... | Biomarkers in vesicoureteral reflux: an overview. | Biomarkers in medicine                            | 2020-07-09 |
+| 45  | Ana L De C Reis                 | Laboratório Interdisciplinar De Investigação M... |                     | None                       |              |            | Laboratorio Interdisciplinar de Investigacao M... |         | brazil                   |      |       | 32643393 | 10.2217/bmm-2019-0378         | \<b\>Aim:\</b\> This article aimed to review the r... | Biomarkers in vesicoureteral reflux: an overview. | Biomarkers in medicine                            | 2020-07-09 |
+| 46  | Letícia P Pimenta               | Laboratório Interdisciplinar De Investigação M... |                     | None                       |              |            | Laboratorio Interdisciplinar de Investigacao M... |         | brazil                   |      |       | 32643393 | 10.2217/bmm-2019-0378         | \<b\>Aim:\</b\> This article aimed to review the r... | Biomarkers in vesicoureteral reflux: an overview. | Biomarkers in medicine                            | 2020-07-09 |
+| 47  | Érica Lm Vieira                 | Laboratório Interdisciplinar De Investigação M... |                     | None                       |              |            | Laboratorio Interdisciplinar de Investigacao M... |         | brazil                   |      |       | 32643393 | 10.2217/bmm-2019-0378         | \<b\>Aim:\</b\> This article aimed to review the r... | Biomarkers in vesicoureteral reflux: an overview. | Biomarkers in medicine                            | 2020-07-09 |
+| 48  | Ana Cs E Silva                  | Laboratório Interdisciplinar De Investigação M... | 0000-0001-9222-3882 | None                       |              |            | Laboratorio Interdisciplinar de Investigacao M... |         | brazil                   |      |       | 32643393 | 10.2217/bmm-2019-0378         | \<b\>Aim:\</b\> This article aimed to review the r... | Biomarkers in vesicoureteral reflux: an overview. | Biomarkers in medicine                            | 2020-07-09 |
 
-    {'pubmed': '35285613',
-     'pmc': None,
-     'doi': '10.1021/acsabm.1c01216',
-     'pii': None,
-     'abstract': "Gold nanorods (AuNRs) remain well-developed inorganic nanocarriers of small molecules for a plethora of biomedical and therapeutic applications. However, the delivery of therapeutic proteins using AuNRs with high protein loading capacity (LC), serum stability, excellent target specificity, and minimal off-target protein release is not known. Herein, we report two bi-functional AuNR-protein nanoconjugates, AuNR@EGFP-BSA<sub>FA</sub> and AuNR@RNaseA-BSA<sub>FA</sub>, supramolecularly coated with folic acid-modified BSA (BSA<sub>FA</sub>) acting as biomimetic protein corona to demonstrate targeted cytosolic delivery of enhanced green fluorescent protein (EGFP) and therapeutic ribonuclease A enzyme (RNase A) in their functional forms. AuNR@EGFP-BSA<sub>FA</sub> and AuNR@RNaseA-BSA<sub>FA</sub> exhibit high LCs of ∼42 and ∼54%, respectively, increased colloidal stability, and rapid protein release in the presence of biological thiols. As a nanocarrier, AuNR@EGFP-BSA<sub>FA</sub> and AuNR@RNaseA-BSA<sub>FA</sub> show resistance to corona formation in high-serum media even after 24 h, guaranteeing a greater circulation lifetime. Folate receptor-targeting BSA<sub>FA</sub> on the AuNR surface facilitates the receptor-mediated internalization, followed by the release of EGFP and RNase A in HT29 cells. The green fluorescence dispersed throughout the cell's cytoplasm indicates successful cytosolic delivery of EGFP by AuNR@EGFP-BSA<sub>FA</sub>. AuNR@RNaseA-BSA<sub>FA</sub>-mediated therapeutic RNase A delivery in multicellular 3D spheroids of HT29 cells exhibits a radical reduction in the cellular RNA fluorescence intensity to 38%, signifying RNA degradation and subsequent cell death. The versatile nanoformulation strategy in terms of the anisotropic particle morphology, protein type, and ability for targeted delivery in the functional form makes the present AuNR-protein nanoconjugates a promising platform for potential application in cancer management.",
-     'autorlist': [{'Fname': 'Namita',
-       'Lname': 'Jaiswal',
-       'name': 'Namita Jaiswal',
-       'initials': 'N',
-       'emails': '',
-       'affiliations': 'Department Of Biotechnology, National Institute Of Technology Durgapur, Durgapur 713209, India.;Material Processing And Microsystem Laboratory, Csir─Central Mechanical Engineering Research Institute, Durgapur 713209, India.',
-       'identifier': ''},
-      {'Fname': 'Sudeshna',
-       'Lname': 'Halder',
-       'name': 'Sudeshna Halder',
-       'initials': 'S',
-       'emails': '',
-       'affiliations': 'Department Of Biotechnology, National Institute Of Technology Durgapur, Durgapur 713209, India.',
-       'identifier': ''},
-      {'Fname': 'Nibedita',
-       'Lname': 'Mahata',
-       'name': 'Nibedita Mahata',
-       'initials': 'N',
-       'emails': '',
-       'affiliations': 'Department Of Biotechnology, National Institute Of Technology Durgapur, Durgapur 713209, India.',
-       'identifier': ''},
-      {'Fname': 'Nripen',
-       'Lname': 'Chanda',
-       'name': 'Nripen Chanda',
-       'initials': 'N',
-       'emails': '',
-       'affiliations': 'Material Processing And Microsystem Laboratory, Csir─Central Mechanical Engineering Research Institute, Durgapur 713209, India.',
-       'identifier': '0000-0002-9902-5595'}],
-     'title': 'Bi-Functional Gold Nanorod-Protein Conjugates with Biomimetic BSA@Folic Acid Corona for Improved Tumor Targeting and Intracellular Delivery of Therapeutic Proteins in Colon Cancer 3D Spheroids.',
-     'journal': 'ACS applied bio materials',
-     'published': datetime.date(2022, 3, 14),
-     'mayorKeys': [],
-     'mayorMesh': ['Colonic Neoplasms', 'Nanotubes'],
-     'minorMesh': ['Biomimetics',
-      'Folic Acid',
-      'Gold',
-      'Humans',
-      'Nanoconjugates',
-      'Ribonuclease, Pancreatic']}
+</div>
