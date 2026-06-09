@@ -76,7 +76,7 @@ def main(argv: list[str] | None = None) -> None:
         uvicorn.run(app, host=args.host, port=args.port)
         return
 
-    mcp.run(transport="stdio", show_banner=True)
+    mcp.run(transport="stdio", show_banner=False)
 
 
 if __name__ == "__main__":

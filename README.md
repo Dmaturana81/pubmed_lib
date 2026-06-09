@@ -10,14 +10,14 @@ export ENTREZ_EMAIL=you@example.com
 pubmed-mcp
 ```
 
-Add to Cursor `mcp.json`:
+Add to Cursor `mcp.json` (local repo — adjust path):
 
 ```json
 {
   "mcpServers": {
     "pubmed": {
-      "command": "uvx",
-      "args": ["pubmed-mcp"],
+      "command": "uv",
+      "args": ["--directory", "/Users/matu/Xcode/pubmed_lib", "run", "pubmed-mcp"],
       "env": {
         "ENTREZ_EMAIL": "you@example.com"
       }
@@ -25,6 +25,8 @@ Add to Cursor `mcp.json`:
   }
 }
 ```
+
+After PyPI publish, you can use `"command": "uvx", "args": ["pubmed-mcp"]` instead.
 
 Remote SSE:
 

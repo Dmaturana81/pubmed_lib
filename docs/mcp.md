@@ -17,6 +17,32 @@ uv add "pubmed-lib[mcp]"
 
 ## stdio (local agents)
 
+stdio speaks JSON-RPC on stdin/stdout. **Do not run it in an interactive terminal** or press Enter in that window — a blank line causes `Invalid JSON: EOF while parsing`.
+
+### Local development (repo checkout)
+
+```json
+{
+  "mcpServers": {
+    "pubmed": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/Users/matu/Xcode/pubmed_lib",
+        "run",
+        "pubmed-mcp"
+      ],
+      "env": {
+        "ENTREZ_EMAIL": "you@example.com",
+        "ENTREZ_API_KEY": "optional"
+      }
+    }
+  }
+}
+```
+
+### After PyPI install
+
 ```json
 {
   "mcpServers": {
