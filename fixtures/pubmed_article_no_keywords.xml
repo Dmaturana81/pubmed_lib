@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<PubmedArticleSet>
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID Version="1">23456789</PMID>
+      <Article PubModel="Print">
+        <Journal>
+          <JournalIssue>
+            <PubDate>
+              <MedlineDate>2023 Spring</MedlineDate>
+            </PubDate>
+          </JournalIssue>
+          <Title>Spring Journal</Title>
+        </Journal>
+        <ArticleTitle>Article Without Keywords</ArticleTitle>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="Y">
+            <LastName>Doe</LastName>
+            <ForeName>John</ForeName>
+            <Initials>J</Initials>
+          </Author>
+        </AuthorList>
+      </Article>
+    </MedlineCitation>
+    <PubmedData>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">23456789</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+</PubmedArticleSet>

@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<PubmedArticleSet>
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID Version="1">45678901</PMID>
+      <Article PubModel="Print">
+        <Journal>
+          <JournalIssue>
+            <PubDate>
+              <Year>2021</Year>
+            </PubDate>
+          </JournalIssue>
+          <Title>Collective Author Journal</Title>
+        </Journal>
+        <ArticleTitle>Collective Authorship Article</ArticleTitle>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="Y">
+            <CollectiveName>Consortium for Testing</CollectiveName>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Valid</LastName>
+            <ForeName>Author</ForeName>
+            <Initials>A</Initials>
+          </Author>
+        </AuthorList>
+      </Article>
+    </MedlineCitation>
+    <PubmedData>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">45678901</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+</PubmedArticleSet>

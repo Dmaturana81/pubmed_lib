@@ -1,12 +1,20 @@
 name: CI
-on:  [workflow_dispatch, pull_request, push]
 
-env:
-  EMAIL: ${{ secrets.EMAIL }}
-  API_KEY: ${{ secrets.API_KEY }}
-  
+on: [workflow_dispatch, pull_request, push]
+
 jobs:
   test:
     runs-on: ubuntu-latest
-    steps: [uses: fastai/workflows/nbdev-ci@master]
-
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: uv sync --all-extras --dev
+      - name: Ruff
+        run: uv run ruff check src tests
+      - name: Mypy
+        run: uv run mypy src/pubmed_lib
+      - name: Pytest
+        run: uv run pytest --cov=pubmed_lib --cov-report=term-missing --cov-fail-under=80

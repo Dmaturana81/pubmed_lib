@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<PubmedArticleSet>
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID Version="1">34567890</PMID>
+      <Article PubModel="Print">
+        <Journal>
+          <JournalIssue>
+            <PubDate>
+              <Year>2022</Year>
+            </PubDate>
+          </JournalIssue>
+          <Title>Structured Abstract Journal</Title>
+        </Journal>
+        <ArticleTitle>Structured Abstract Article</ArticleTitle>
+        <Abstract>
+          <AbstractText Label="BACKGROUND">Background section text.</AbstractText>
+          <AbstractText Label="METHODS">Methods section text.</AbstractText>
+          <AbstractText Label="RESULTS">Results section text.</AbstractText>
+        </Abstract>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="Y">
+            <LastName>Lee</LastName>
+            <ForeName>Chris</ForeName>
+            <Initials>C</Initials>
+          </Author>
+        </AuthorList>
+      </Article>
+    </MedlineCitation>
+    <PubmedData>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">34567890</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+</PubmedArticleSet>
