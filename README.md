@@ -17,7 +17,7 @@ Add to Cursor `mcp.json` (local repo — adjust path):
   "mcpServers": {
     "pubmed": {
       "command": "uv",
-      "args": ["--directory", "/Users/matu/Xcode/pubmed_lib", "run", "pubmed-mcp"],
+      "args": ["--directory", "./pubmed_lib", "run", "pubmed-mcp"],
       "env": {
         "ENTREZ_EMAIL": "you@example.com"
       }
