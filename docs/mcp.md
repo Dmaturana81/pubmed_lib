@@ -28,7 +28,7 @@ stdio speaks JSON-RPC on stdin/stdout. **Do not run it in an interactive termina
       "command": "uv",
       "args": [
         "--directory",
-        "/Users/matu/Xcode/pubmed_lib",
+        "./pubmed_lib",
         "run",
         "pubmed-mcp"
       ],

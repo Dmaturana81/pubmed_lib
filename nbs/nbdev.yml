@@ -1,9 +1,0 @@
-project:
-  output-dir: _docs
-
-website:
-  title: "pubmed_lib"
-  site-url: "https://Dmaturana81.github.io/pubmed_lib"
-  description: "Simple wrapper for pubmed resutls"
-  repo-branch: main
-  repo-url: "https://github.com/Dmaturana81/pubmed_lib"

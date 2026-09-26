@@ -42,7 +42,7 @@ Ship `pubmed-lib` **1.0.0-alpha** (deterministic core library) then **1.0.0** (F
 - **Implementer runs on completion of each milestone:**
 
 ```bash
-cd /Users/matu/Xcode/pubmed_lib
+cd pubmed_lib
 uv sync --all-extras --dev
 uv run ruff check src tests
 uv run mypy src/pubmed_lib
